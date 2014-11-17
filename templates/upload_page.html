@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Converter Form</h1>
+{% if form.errors %}
+<p>{{ form.errors|pluralize }}</p>>
+{% endif %}
+
+<form enctype="multipart/form-data" action="" method="POST">{% csrf_token %}
+<table>
+	{{ form.as_table }}
+</table>
+<input type="submit" value="Upload file">
+</form>
+{% endblock %}
