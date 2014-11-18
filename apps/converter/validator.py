@@ -16,4 +16,5 @@ class ExtFileField(forms.FileField):
         ext = os.path.splitext(filename)[1]
         ext = ext.lower()
         if ext not in self.ext_whitelist:
+            print ext
             raise forms.ValidationError("Not allowed filetype!Filetypes allowed: " + ', '.join(self.ext_whitelist))

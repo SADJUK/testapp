@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.static import serve
 from models import FileForm
+from django.conf import settings
 from django.core.servers.basehttp import FileWrapper
 import xmltodict, json
 import os
@@ -9,7 +9,7 @@ import os
 
 
 def return_file(request, filename):
-    name = 'media/' + filename
+    name = settings.MEDIA_ROOT + '/' + filename
     wrapper = FileWrapper(file(name))
     response = HttpResponse(wrapper, content_type='text/plain')
     response['Content-Length'] = os.path.getsize(name)
@@ -21,7 +21,7 @@ def save_file(f):
     splitted_name = filename.split('.')
     extension = splitted_name[len(splitted_name)-1]
     name = splitted_name[0]
-    with open('media/' + str(filename), 'wb') as destination:
+    with open(settings.MEDIA_ROOT + '/' + str(filename), 'wb') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
     return (filename, name, extension)
@@ -29,12 +29,12 @@ def save_file(f):
 
 def converter(filename, name, extension, output_format):
     if extension == 'xml' and output_format == 'json':
-        with open('media/' + filename, "r") as _in:
+        with open(settings.MEDIA_ROOT + '/' + filename, "r") as _in:
             xml_text = _in.read()
         parser = xmltodict.parse(xml_text)
         result = json.dumps(parser)
         output_name = name + '.json'
-        with open('media/' + output_name, 'w') as out:
+        with open(settings.MEDIA_ROOT + '/' + output_name, 'w') as out:
             out.write(result)
         return output_name
     else:

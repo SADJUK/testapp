@@ -11,8 +11,6 @@ class FileForm(forms.Form):
         ('json', 'json'),
         ('xml', 'xml')
         )
-    # title = forms.CharField(max_length=50)
     select = forms.ChoiceField(choices=CHOICES, required=True, label='Convert to')
-    # file = forms.FileField()
-    file = ExtFileField(ext_whitelist=['csv', 'json', 'xml'])
+    file = ExtFileField(ext_whitelist=['.csv', '.json', '.xml'])
 # Create your models here.
